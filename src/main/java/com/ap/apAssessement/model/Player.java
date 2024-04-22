@@ -1,7 +1,12 @@
 package com.ap.apAssessement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -21,7 +26,6 @@ public class Player {
     private Integer age;
 
     private String gender;
-
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -87,5 +91,18 @@ public class Player {
 
     public void setSports(Set<Sport> sports) {
         this.sports = sports;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return playerId.equals(player.playerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerId);
     }
 }
